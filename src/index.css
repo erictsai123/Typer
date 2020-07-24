@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Itim');
+
+*{
+    font-family: 'Itim';
+}
+
+.contentstuff {
+    width:90%;
+    max-height:100%;
+    min-height:100%;
+    padding: 0 5px;
+    display:flex;
+    flex-direction:column;
+    color: #aaa;
+}
+#progressbarcontainer{
+    display:flex;
+    align-items:center;
+    width:100%;
+    height:100%;
+}
+ProgressBar{
+    background:black;
+}
+#content{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-grow:1;
+    min-height: 0;
+    overflow-y: auto;
+
+}
+#appcontainer{
+    height:100vh;
+    display:flex;
+    flex-direction:column;
+}
+
+#inputArea {
+    height:360px;
+}
+
+#statsbox{
+    text-align:right;
+}
+h1, p {
+    color: #aaa;
+}
+.textIO {
+    line-height:1.4;
+    color: #aaa ;
+    height:300px;
+    width:100%;
+    margin-top:10px;
+    font-size:20px;
+    word-break: break-word;
+}
+
+.textIO:focus{
+    outline:none;
+}
+
+.textIO:focus #pointer{
+    
+    animation:blinkingText 1s infinite step-end
+}
+@keyframes blinkingText{
+    
+    50%{     background:#fcf5f6;
+             color:#616161;
+       }
+    
+}
+
+#inputBox {
+    padding:3px;
+    line-height:1.4;
+    color: #aaa ;
+    background:transparent;
+    border: 1px solid #aaa;
+}
+.btn{
+    color: #aaa;
+    border: '#';
+}
+.tabClass > a {
+    color: #aaa;
+}
+    
+
+#promptSetting{
+    border:1px solid black;
+    width:100%;
+}
+#settingForm *{
+    align-items:center;
+}
+#KeySummary{
+    min-width:1px;
+    overflow-x: auto;
+    height:330px;
+    display:flex;
+    justify-content:center;
+
+}
+body {
+  margin: 0;
+     -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height:100vh;
+  background-image:url('./homepage/background.jpeg');
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+ 
+  
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
