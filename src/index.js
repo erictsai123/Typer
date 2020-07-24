@@ -8,7 +8,7 @@ import {BrowserRouter} from 'react-router-dom'
 //import './homepage/Home.css'
 
 ReactDOM.render(
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
     <Home />
     </BrowserRouter>
     , document.getElementById("root"));
