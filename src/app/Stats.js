@@ -14,6 +14,15 @@ export default class Stats extends React.Component{
     this.state = {toggle:false}
         this.setShow = this.setShow.bind(this)
         this.setClose = this.setClose.bind(this)
+        this.handleReset = this.handleReset.bind(this)
+  }
+  componentDidMount() {
+        document.addEventListener('keydown',this.handleReset)
+    }
+  handleReset(event){
+      if(event.keyCode == 13){
+          this.refresh(event)
+      }
   }
   reset(event){
     this.props.enterKey(textGenerator(this.props.data.setPrompt),'reset')
@@ -33,13 +42,15 @@ export default class Stats extends React.Component{
         setTimeout(()=> document.getElementById('promptBox').focus(), 300)
 
     }
-  wordPerMinute(timestart,words){
-    const sec = ((Date.now()-timestart)/1000)
-    const word = words
-    if(timestart==0){
+  wordPerMinute(timestart,arr,index){
+    if(timestart==0 || index ==0){
       return ''
     }
-    return Math.round(60*10*word/sec)/10
+    const min = ((Date.now()-timestart)/1000)/60
+
+    const uncorrect = arr.map(x=>x.correctness ? 0: x.correction.length).reduce((a,b)=>a+b)
+
+    return Math.max(Math.round(10*((index/5)-uncorrect)/min)/10,0)
   }
   efficiency(counter,correct){
     if (counter ==0){
@@ -58,7 +69,7 @@ export default class Stats extends React.Component{
       <Row>
       <Col>
       <div id='kpi'>
-        <p >Words Per Minute: {this.wordPerMinute(this.props.data.statUpdater.timeStart,this.props.data.statUpdater.numSpace)}</p>
+        <p >Words Per Minute: {this.wordPerMinute(this.props.data.statUpdater.timeStart,this.props.data.update.arr,this.props.data.update.index)}</p>
         <p data-testid='efficiencyid'>Efficiency: {this.efficiency(this.props.data.statUpdater.keyCounter,this.props.data.statUpdater.correctKey)}</p>
         </div>
       </Col>
