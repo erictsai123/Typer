@@ -24,7 +24,7 @@ function Account(props){
         }
         
         if(click ==='login'){
-            axios.post('http://100.115.92.2:4000/login',acct).then(res=>{
+            axios.post('/login',acct).then(res=>{
                 if(res.data){
                     props.setLogin('login',res.data.name)
                     setRedirect(true)
@@ -32,7 +32,7 @@ function Account(props){
             })
         }
         else{
-            axios.post('http://100.115.92.2:4000/reg',acct).then(res=>
+            axios.post('/reg',acct).then(res=>
         {
             if(res.data==='username exist'){
                 setErr('Username already exist')

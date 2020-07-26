@@ -84,7 +84,7 @@ class App extends React.Component {
   }
   componentDidMount(){
     if(this.props.data.accountRedux.username){
-        axios.get('http://100.115.92.2:4000/stats/'+this.props.data.accountRedux.username)
+        axios.get('/stats/'+this.props.data.accountRedux.username)
           .then(response=>{
               this.props.updateStat(processData(response.data))
           })
@@ -110,7 +110,7 @@ class App extends React.Component {
         setTimeout(()=> document.getElementById('promptBox').focus(), 0)
       }else{
           if(this.props.data.accountRedux.username){
-            axios.get('http://100.115.92.2:4000/stats/'+this.props.data.accountRedux.username)
+            axios.get('/stats/'+this.props.data.accountRedux.username)
             .then(response=>{
               this.props.updateStat(processData(response.data))
           })

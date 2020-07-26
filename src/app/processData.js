@@ -8,7 +8,7 @@ export default function processData(data){
     ttlTime = Math.round(data.reduce((r,a)=>r+a.duration,0)*10/60)/10
     ttlWord = Math.round(10*data.reduce((r,a)=>r+a.corrKey,0)/5)/10
     err = data.reduce((r,a)=>r+a.incorrectKeys,'')
-    med_wpm = median(data.filter(x=>x.wpm).map(x=>parseFloat(x.wpm)))
-    med_eff= median(data.filter(x=>x.eff).map(x=>parseFloat(x.eff)))
+    med_wpm = Math.round(median(data.filter(x=>x.wpm).map(x=>parseFloat(x.wpm)))*10)/10
+    med_eff= Math.round(median(data.filter(x=>x.eff).map(x=>parseFloat(x.eff)))*100)/100
     return {ttlWord,ttlTime,med_wpm,med_eff,err}
 }

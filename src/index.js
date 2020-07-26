@@ -4,13 +4,15 @@ import Home from './homepage/Home.js';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
-import {HashRouter} from 'react-router-dom'
-//import './homepage/Home.css'
+import {BrowserRouter} from 'react-router-dom'
+
+
+//axios.defaults.baseURL = "http://100.115.92.2:5000"
 
 ReactDOM.render(
-    <HashRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter >
     <Home />
-    </HashRouter>
+    </BrowserRouter>
     , document.getElementById("root"));
 
 

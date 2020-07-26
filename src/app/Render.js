@@ -23,7 +23,7 @@ export default class Render extends React.Component {
                     wpm:document.getElementById('wpm').innerHTML,
                     eff:document.getElementById('eff').innerHTML
                 }
-                axios.post('http://100.115.92.2:4000/score',payload)
+                axios.post('/score',payload)
         }
         this.props.enterKey(textGenerator(this.props.data.setPrompt),'refresh')
         return

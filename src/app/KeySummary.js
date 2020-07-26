@@ -48,8 +48,7 @@ class KeySummary extends React.Component{
     }
     
     render(){
-        console.log(this.props.stats)
-        if(!this.props.stats.stats.ttlTime){
+        if(!this.props.stats.stats.ttlWord){
             return (<Jumbotron style={{background:'transparent'}}>
                 <h1>No Statistics Available</h1>
                 {this.props.stats.username ?
