@@ -68,18 +68,11 @@ h1, p {
 @keyframes blinkingText{
     
     50%{     background:#fcf5f6;
-             color:#616161;
+             color:#777;
        }
     
 }
 
-#inputBox {
-    padding:3px;
-    line-height:1.4;
-    color: #aaa ;
-    background:transparent;
-    border: 1px solid #aaa;
-}
 .btn{
     color: #aaa;
     border: '#';
@@ -97,13 +90,15 @@ h1, p {
     align-items:center;
 }
 #KeySummary{
-    min-width:1px;
-    overflow-x: auto;
+    min-width:0px;
     height:330px;
-    display:flex;
-    justify-content:center;
-
+    text-align:center;
+    width:100%;
+    line-height:.3;
+    margin-top:15px;
 }
+
+
 body {
   margin: 0;
      -webkit-font-smoothing: antialiased;

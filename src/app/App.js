@@ -1,7 +1,6 @@
-import React,{useState,setState} from 'react';
+import React from 'react';
 import * as ReactRedux from 'react-redux'
-import * as ReduxThunk from 'redux-thunk'
-import {Row, Col, Tab,Tabs} from 'react-bootstrap'
+import {Tab,Tabs,Container} from 'react-bootstrap'
 
 
 import Render from './Render.js'
@@ -10,9 +9,10 @@ import KeySummary from './KeySummary.js'
 
 import textGenerator from './textGenerator.js'
 
-import {enterKey, update} from '../app/enterKey.js'
-import {enterStat, statUpdater} from '../app/statUpdater.js'
-import setPrompt from '../app/setPrompt.js'
+import {enterKey} from '../app/enterKey.js'
+import {enterStat} from '../app/statUpdater.js'
+import axios from 'axios'
+import processData from './processData.js'
 const lessons = {
     basics:{cap:false,num:false,word:20,paran:{
         '< >':false,
@@ -79,11 +79,20 @@ class App extends React.Component {
       props.enterKey(textGenerator(lessons[props.match.params.lesson]),'refresh')
       props.setPrompt('setPrompt',lessons[props.match.params.lesson])
       this.handleSelect = this.handleSelect.bind(this)
-      setTimeout(()=> document.getElementById('promptBox').focus(), 0)
       
+
+  }
+  componentDidMount(){
+    if(this.props.data.accountRedux.username){
+        axios.get('http://100.115.92.2:4000/stats/'+this.props.data.accountRedux.username)
+          .then(response=>{
+              this.props.updateStat(processData(response.data))
+          })
+    }
+    setTimeout(()=> document.getElementById('promptBox').focus(), 0)
   }
   componentDidUpdate(prevProps){
-      if(prevProps.match.params != this.props.match.params){
+      if(prevProps.match.params !== this.props.match.params){
         this.props.enterKey(textGenerator(lessons[this.props.match.params.lesson]),'refresh')
         this.props.setPrompt('setPrompt',lessons[this.props.match.params.lesson])
         if(document.getElementById('promptBox')){
@@ -97,14 +106,21 @@ class App extends React.Component {
       this.setState({toggle:!this.state.toggle})
   }
   handleSelect(k){
-      if(k=='typingMode'){
+      if(k==='typingMode'){
         setTimeout(()=> document.getElementById('promptBox').focus(), 0)
+      }else{
+          if(this.props.data.accountRedux.username){
+            axios.get('http://100.115.92.2:4000/stats/'+this.props.data.accountRedux.username)
+            .then(response=>{
+              this.props.updateStat(processData(response.data))
+          })
+    }
       }
   }
   render() {
     return (
-      <div id="lessonContainer" className='contentstuff'>
-        <h1 id="title">Touch Typing Practice</h1>
+      <Container id="lessonContainer" className='contentstuff'>
+        <h1 style={{'line-height':'.5'}}id="title">Touch Typing Practice</h1>
         <Stats setToggle = {this.setToggle} tog = {this.state.toggle} data={this.props.data} enterKey={this.props.enterKey} enterStat={this.props.enterStat}/>
         <br />
         <div id='inputArea' >
@@ -117,7 +133,7 @@ class App extends React.Component {
                 </Tab>
             </Tabs>
         </div>
-      </div>
+      </Container>
     );
   }
 }
@@ -129,6 +145,7 @@ export default ReactRedux.connect(
   (dispatch) => ({
     enterKey: (payload,type) => dispatch(enterKey(payload,type)),
     enterStat:(type,payload) =>dispatch(enterStat(type,payload)),
-    setPrompt: (type,payload) => dispatch({type:type,payload:payload})
+    setPrompt: (type,payload) => dispatch({type:type,payload:payload}),
+    updateStat:(payload) => dispatch({type:'stats',payload:payload})
   })
 )(App);

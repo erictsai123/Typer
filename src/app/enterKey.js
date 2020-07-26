@@ -3,26 +3,27 @@ const enterKey = (key, type) =>{
   return { type: type, key: key };
 };
 const update = (data = default_data,event) => {
-  let correction, correct, allButLast, lastElement,value;
+  let correction, correct, allButLast, lastElement;
   switch (event.type) {
     case "enter key":
-       correct = data.prompt[data.index] == event.key || (data.prompt[data.index] == String.fromCharCode(0x2423) && event.key == ' ')
+       correct = data.prompt[data.index] === event.key || (data.prompt[data.index] === String.fromCharCode(0x2423) && event.key === ' ')
        correction = correct? '': data.prompt[data.index];
-      if (data.arr.length==0){
+       const error = data.last_char && !correct? correction : ''
+      if (data.arr.length===0){
         return Object.assign({}, data, {
             last_char: correct,
             index: data.index+1,
             arr: [{ correctness: correct, value: data.prompt[data.index],correction:correction }],
-            error: data.error+correction
+            error: data.error+error
           });
       }
       
-      if(correct != data.last_char){
+      if(correct !== data.last_char){
         return Object.assign({}, data, {
             last_char: correct,
             index: data.index+1,
             arr: [...data.arr, { correctness: correct, value: data.prompt[data.index],correction:correction }],
-            error: data.error+correction
+            error: data.error+error
           });
       }
 
@@ -35,7 +36,7 @@ const update = (data = default_data,event) => {
           return Object.assign({}, data, {
             index: data.index+1,
             arr: allButLast.concat(lastElement),
-            error: data.error+correction
+            error: data.error+error
           });
       
     case "backtrack":
@@ -59,10 +60,11 @@ const update = (data = default_data,event) => {
                last_char:data.arr[data.arr.length-2].correctness
                }
               )
+
     case 'reset':
       return Object.assign({},data,{ index: 0, arr: [], last_char: true,error:''})
     case 'refresh':
-      return Object.assign({},data,{index: 0, arr: [], last_char: true,prompt:event.key})
+      return Object.assign({},data,{index: 0, arr: [], last_char: true,error:'',prompt:event.key})
     default:
       return Object.assign({},data)
   }

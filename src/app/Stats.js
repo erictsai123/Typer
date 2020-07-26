@@ -16,11 +16,8 @@ export default class Stats extends React.Component{
         this.setClose = this.setClose.bind(this)
         this.handleReset = this.handleReset.bind(this)
   }
-  componentDidMount() {
-        document.addEventListener('keydown',this.handleReset)
-    }
   handleReset(event){
-      if(event.keyCode == 13){
+      if(event.keyCode === 13){
           this.refresh(event)
       }
   }
@@ -42,21 +39,21 @@ export default class Stats extends React.Component{
         setTimeout(()=> document.getElementById('promptBox').focus(), 300)
 
     }
-  wordPerMinute(timestart,arr,index){
-    if(timestart==0 || index ==0){
+  wordPerMinute(timestart,cor,index){
+    if(timestart===0 || index ===0){
       return ''
     }
     const min = ((Date.now()-timestart)/1000)/60
 
-    const uncorrect = arr.map(x=>x.correctness ? 0: x.correction.length).reduce((a,b)=>a+b)
+    const uncorrect = index-cor+1
 
     return Math.max(Math.round(10*((index/5)-uncorrect)/min)/10,0)
   }
   efficiency(counter,correct){
-    if (counter ==0){
+    if (counter ===0){
       return ''
     }
-    return Math.round(10000*correct/counter)/100+'%'
+    return Math.round(10000*correct/counter)/100
   }
   progress(index, len){
       return Math.round(index*100/(len))
@@ -69,8 +66,8 @@ export default class Stats extends React.Component{
       <Row>
       <Col>
       <div id='kpi'>
-        <p >Words Per Minute: {this.wordPerMinute(this.props.data.statUpdater.timeStart,this.props.data.update.arr,this.props.data.update.index)}</p>
-        <p data-testid='efficiencyid'>Efficiency: {this.efficiency(this.props.data.statUpdater.keyCounter,this.props.data.statUpdater.correctKey)}</p>
+        <p >Words Per Minute: <span id='wpm'>{this.wordPerMinute(this.props.data.statUpdater.timeStart,this.props.data.statUpdater.correctKey,this.props.data.update.index)}</span></p>
+        <p data-testid='efficiencyid'>Efficiency: <span  id='eff'>{this.efficiency(this.props.data.statUpdater.keyCounter,this.props.data.statUpdater.correctKey)}</span>%</p>
         </div>
       </Col>
       </Row>

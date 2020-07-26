@@ -1,26 +1,39 @@
 import React from 'react';
-
+import axios from 'axios'
+import textGenerator from './textGenerator.js'
 export default class Render extends React.Component {
     constructor(props) {
     super(props);
     this.hitKey = this.hitKey.bind(this);
-    
-  }
-  componentDidMount(){
-      document.getElementById('promptBox').focus()
   }
   hitKey(event) {
     const ind = this.props.data.update.index
     if(event.keyCode >15 && event.keyCode <20){
       return
     }
-    
-    if(ind==0){
+    if(event.keyCode=== 13){
+        if(ind===this.props.data.update.prompt.length){
+            let payload ={
+                    username:this.props.data.accountRedux.username,
+                    duration: (this.props.data.statUpdater.timeEnd-this.props.data.statUpdater.timeStart)/1000,
+                    corrKey:this.props.data.statUpdater.correctKey,
+                    keyCounter:this.props.data.statUpdater.keyCounter,
+                    length:this.props.data.update.prompt.length,
+                    incorrectKeys: this.props.data.update.error,
+                    wpm:document.getElementById('wpm').innerHTML,
+                    eff:document.getElementById('eff').innerHTML
+                }
+                axios.post('http://100.115.92.2:4000/score',payload)
+        }
+        this.props.enterKey(textGenerator(this.props.data.setPrompt),'refresh')
+        return
+    }
+    if(ind===0){
       this.props.enterStat('start')
     }
     
-    if(event.keyCode == 8){
-      if(ind==0){
+    if(event.keyCode === 8){
+      if(ind===0){
         this.props.enterKey(0,'reset')
         return
       }
@@ -32,7 +45,7 @@ export default class Render extends React.Component {
       {
         if(ind < this.props.data.update.prompt.length){
             this.props.enterKey(event.key,"enter key")
-            if(ind == this.props.data.update.prompt.length-1){
+            if(ind === this.props.data.update.prompt.length-1){
                 this.props.enterStat('end')
             }
         }
@@ -43,19 +56,18 @@ export default class Render extends React.Component {
       }
     
     
-    if(event.keyCode == 32 && this.props.data.update.prompt[ind]== String.fromCharCode(0x2423)){
+    if(event.keyCode === 32 && this.props.data.update.prompt[ind]=== String.fromCharCode(0x2423)){
       this.props.enterStat("space",1)
-      this.props.enterStat("key",this.props.data.update.prompt[ind]== String.fromCharCode(0x2423))
+      this.props.enterStat("key",this.props.data.update.prompt[ind]=== String.fromCharCode(0x2423))
       return
     }
-    this.props.enterStat("key",this.props.data.update.prompt[ind]== event.key)
+    this.props.enterStat("key",this.props.data.update.prompt[ind]=== event.key)
         
     
     
   }
   
   render() {
-    
     return (
       <div className="textIO" id="promptBox" data-testid='promptbox' tabIndex="0" onKeyDown={this.hitKey}>
         <p>{this.props.data.update.arr.map((element,i)=>
@@ -64,6 +76,8 @@ export default class Render extends React.Component {
               <span data-testid={i+'-'+element.value.length+element.correctness} style={{background: "#a35555"}}>{element.correction}</span> )}
         <span id='pointer'>{this.props.data.update.prompt[this.props.data.update.index]}</span>
         <span>{this.props.data.update.prompt.slice(this.props.data.update.index+1)}</span>
+        <span>{String.fromCharCode(0x21B5)}</span>
+        
         </p>
       </div>
     );

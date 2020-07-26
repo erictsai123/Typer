@@ -1,11 +1,10 @@
-import React,{useState,setState} from 'react'
+import React from 'react'
 import * as ReactRedux from 'react-redux'
-import setPrompt from '../app/setPrompt.js'
 
-import {Form,Modal,Button} from 'react-bootstrap'
+import {Modal,Button} from 'react-bootstrap'
 import PromptSetting from './PromptSetting.js'
 import textGenerator from '../app/textGenerator.js'
-import {enterKey, update} from '../app/enterKey.js'
+import {enterKey} from '../app/enterKey.js'
 function Custom(props){
     function handleClick(){
         props.setConfig('setPrompt',props.config)

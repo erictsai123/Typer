@@ -3,7 +3,7 @@ import randomWords from 'random-words'
 export default function generate(obj){
     let numArr = obj.num ? Array.from({length: Math.floor(0.3*obj.word)}, () => Math.floor(Math.random() * 100)) : []
     let wordArr = randomWords(Math.floor((1-obj.num*0.3)*obj.word))
-    let surroundArr = Object.entries(obj.paran).filter(x=> x[0]!= 'all' && x[1])
+    let surroundArr = Object.entries(obj.paran).filter(x=> x[0]!== 'all' && x[1])
     
     if (obj.cap){ wordArr = wordArr.map(x=>x[0].toUpperCase()+ x.slice(1))}
     if(surroundArr.length>0){

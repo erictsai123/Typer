@@ -1,13 +1,12 @@
 import React from 'react'
-import RangeSlider from 'react-bootstrap-range-slider';
-import {Form,Button,Row,Col} from 'react-bootstrap'
+import {Form,Row,Col} from 'react-bootstrap'
 
 
 const PromptSetting = (props)=>{
     function check(e,dic){
         const {name,checked} = e.target
         let ret = {}
-        if(name=='all'){
+        if(name==='all'){
             let arr =Object.entries(dic)
             arr.map(items=>items[1] = checked)
             props.func({...props.data,paran:Object.fromEntries(arr)})
@@ -60,7 +59,7 @@ const PromptSetting = (props)=>{
                            
                         <Row>
                         {Object.entries(props.data.paran)
-                        .filter(items=> items[0]!='all')
+                        .filter(items=> items[0]!=='all')
                         .map(items=>(
                             <Col>
                             <Form.Check inline type='checkbox' name={items[0]} id={`checkbox-${items[0]}`} label={items[0]}

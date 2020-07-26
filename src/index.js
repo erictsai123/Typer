@@ -4,13 +4,13 @@ import Home from './homepage/Home.js';
 import * as serviceWorker from './serviceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css'
-import {BrowserRouter} from 'react-router-dom'
+import {HashRouter} from 'react-router-dom'
 //import './homepage/Home.css'
 
 ReactDOM.render(
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <HashRouter basename={process.env.PUBLIC_URL}>
     <Home />
-    </BrowserRouter>
+    </HashRouter>
     , document.getElementById("root"));
 
 
