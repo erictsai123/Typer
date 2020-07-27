@@ -3,8 +3,8 @@ import * as ReactRedux from 'react-redux'
 
 import {Modal,Button} from 'react-bootstrap'
 import PromptSetting from './PromptSetting.js'
-import textGenerator from '../app/textGenerator.js'
-import {enterKey} from '../app/enterKey.js'
+import textGenerator from '../functions/textGenerator.js'
+import {enterKey} from '../reducers/enterKey.js'
 function Custom(props){
     function handleClick(){
         props.setConfig('setPrompt',props.config)

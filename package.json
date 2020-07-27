@@ -33,6 +33,7 @@
   },
   "scripts": {
     "start": "node app-backend/server.js",
+    "dev": "react-scripts start",
     "heroku-postbuild": "npm install && npm run build",
     "build": "react-scripts build",
     "test": "jest --coverage --watchAll",
