@@ -12,9 +12,12 @@ function Account(props) {
   const handleClick = (event) => {
     setClick(event.target.id);
   };
-  const handleChange = (e) =>
-    setAcct({ ...acct, [e.target.name]: e.target.value });
-  const handleSubmit = (event) => {
+  const handleChange = (e) =>{
+    setAcct({ ...acct, [e.target.name]: e.target.value })
+    setErr('')
+  }
+    
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
@@ -24,20 +27,24 @@ function Account(props) {
     }
 
     if (click === "login") {
-      axios.post("/login", acct).then((res) => {
-        if (res.data) {
-          axios.get("/stats/" + res.data.name).then((response) => {
-            props.updateStat(response.data);
-            localStorage.setItem("stat", response.data);
-          });
-          localStorage.setItem("username", res.data.name);
-          props.setLogin("login", res.data.name);
-          setRedirect(true);
-        } else {
+      try{
+        let res = await axios.post('/login',acct)
+        if(res.data){
+          let dat = await axios.get('/stats/'+acct)
+          props.updateStat(dat.data)
+          localStorage.setItem('username',res.data.name)
+          props.setLogin('login',res.data.name)
+          setRedirect(true)
+        } else{
           setErr("Incorrect username or password");
         }
-      });
-    } else {
+        
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+       else {
       axios.post("/reg", acct).then((res) => {
         if (res.data === "username exist") {
           setErr("Username already exist");
@@ -46,7 +53,9 @@ function Account(props) {
           props.setLogin("login", res.data.name);
           setRedirect(true);
         }
-      });
+      })
+      .catch(console.log(err))
+      
     }
   };
 

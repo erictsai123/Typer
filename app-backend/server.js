@@ -14,10 +14,8 @@ dotenv.config();
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(express.static(path.join(__dirname, "../build")));
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../build"));
-});
+app.use('/static', express.static(path.join(__dirname, '../build//static')));
+
 app.listen(PORT, () => console.log("Im listening on PORT:" + PORT));
 //connect to db
 mongoose
@@ -30,35 +28,42 @@ mongoose
   .catch((err) => console.log(err));
 
 //routes
-app.post("/login", (req, res) => {
-  User.findOne(req.body, (err, data) => {
-    err ? res.send(err) : res.send(data);
-  });
-});
+app.post('/login', (req,res)=>{
+  User.findOne(req.body)
+  .then(result=>{
+  res.send(result)
+  })
+  .catch(err=>res.send(err))
+})
 
-app.post("/reg", (req, res) => {
-  User.findOne({ name: req.body.name }, (err, data) => {
-    if (err) {
-      res.send(err);
-    } else if (data) {
-      res.send("username exist");
-    } else {
-      const user = new User(req.body);
-      user.save((err, data) => {
-        err ? res.send(err) : res.send(data);
-      });
-    }
-  });
-});
-app.post("/score", (req, res) => {
-  const score = new Score(req.body);
-  score.save((err, data) => {
-    err ? res.send(err) : res.send(data);
-  });
-});
 
-app.get("/stats/:username?", (req, res) => {
-  Score.find(req.params, (err, data) => {
-    err ? res.err(err) : res.send(data);
-  });
+app.post('/reg',(req,res)=>{
+  User.findOne({name:req.body.name})
+  .then(data=>{
+  if(data){
+    res.send('username exist')
+  }else{
+    const user = new User(req.body)
+    user.save()
+    .then(u=> res.send(u))
+    .catch(err=>res.send(err))
+  }
+}).catch(err=>res.send(err))
+})
+
+app.post('/score',(req,res)=>{
+  const score = new Score(req.body)
+  score.save()
+  .then(data=>res.send(data))
+.catch(err=>res.send(err))
+})
+
+
+app.get('/stats/:username?',(req,res)=>{
+  Score.find(req.params)
+  .then(result=>res.send(result))
+  .catch(err=>res.send(err))
+})
+app.get('*', function(req, res) {
+  res.sendFile('index.html', {root: path.join(__dirname, '../build/')});
 });
