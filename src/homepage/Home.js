@@ -4,7 +4,7 @@ import MyNavbar from "./Navbar.js";
 import Introduction from "./Introduction.js";
 import Feedback from "./Feedback.js";
 import About from "./About.js";
-import App from "./App.js";
+import {AppConnect} from "./App.js";
 import Account from "./Account.js";
 import Profile from "./Profile.js";
 import { Switch, Route } from "react-router-dom";
@@ -30,14 +30,16 @@ function Home(props) {
     <div id="appcontainer">
       <MyNavbar />
       <Switch>
-        <Container id="content">
-          <Route path="/" component={Introduction} exact />
-          <Route path="/about" component={About} />
-          <Route path="/feedback" component={Feedback} />
-          <Route path="/practice/:lesson?" component={App} />
-          <Route path="/account" component={Account} />
-          <Route path="/profile" component={Profile} />
-        </Container>
+        <React.Fragment>
+          <Container id="content">
+            <Route path="/" component={Introduction} exact />
+            <Route path="/about" component={About} />
+            <Route path="/feedback" component={Feedback} />
+            <Route path="/practice/:lesson?" component={AppConnect} />
+            <Route path="/account" component={Account} />
+            <Route path="/profile" component={Profile} />
+          </Container>
+        </React.Fragment>
       </Switch>
     </div>
   );

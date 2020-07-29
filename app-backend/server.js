@@ -29,6 +29,7 @@ mongoose
 
 //routes
 app.post('/login', (req,res)=>{
+  console.log('login',req.body)
   User.findOne(req.body)
   .then(result=>{
   res.send(result)
@@ -38,6 +39,7 @@ app.post('/login', (req,res)=>{
 
 
 app.post('/reg',(req,res)=>{
+  console.log('reg',req.body)
   User.findOne({name:req.body.name})
   .then(data=>{
   if(data){
@@ -62,6 +64,12 @@ app.post('/score',(req,res)=>{
 app.get('/stats/:username?',(req,res)=>{
   Score.find(req.params)
   .then(result=>res.send(result))
+  .catch(err=>res.send(err))
+})
+app.post('/delete',(req,res)=>{
+  console.log(req.body)
+  User.deleteOne(req.body)
+  .then(console.log('delete user'+ req.body))
   .catch(err=>res.send(err))
 })
 app.get('*', function(req, res) {

@@ -81,22 +81,22 @@ export default class KeySummary extends React.Component {
         <Row>
           <Col sm={3}>
             <p>Total Minutes</p>
-            <h5>{stats.ttlTime}</h5>
+            <h5 data-testid='time'>{stats.ttlTime}</h5>
           </Col>
           <Col sm={3}>
             <p>Total Words</p>
-            <h5>{stats.ttlWord}</h5>
+            <h5 data-testid='word'>{stats.ttlWord}</h5>
           </Col>
           <Col sm={3}>
             <p> Avg. WPM</p>
-            <h5>{stats.med_wpm}</h5>
+            <h5 data-testid='wpm'>{stats.med_wpm}</h5>
           </Col>
           <Col sm={3}>
             <p> Avg. Efficiency</p>
-            <h5>{stats.med_eff}%</h5>
+            <h5 data-testid='eff'>{stats.med_eff}%</h5>
           </Col>
         </Row>
-        <h3 style={{ "text-align": "left" }}>Frequent Typos:</h3>
+        <h3 style={{ "textAlign": "left" }}>Frequent Typos:</h3>
         {graph}
       </Container>
     );

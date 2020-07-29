@@ -61,18 +61,6 @@ class Render extends React.Component {
         return;
       }
     }
-
-    if (
-      event.keyCode === 32 &&
-      this.props.data.update.prompt[ind] === String.fromCharCode(0x2423)
-    ) {
-      this.props.enterStat("space", 1);
-      this.props.enterStat(
-        "key",
-        this.props.data.update.prompt[ind] === String.fromCharCode(0x2423)
-      );
-      return;
-    }
     this.props.enterStat(
       "key",
       this.props.data.update.prompt[ind] === event.key
@@ -95,12 +83,14 @@ class Render extends React.Component {
                 data-testid={
                   i + "-" + element.value.length + element.correctness
                 }
+                key={'spanT'+i}
                 style={{ color: "#55a356", fontWeights: "bold" }}
               >
                 {element.value}
               </span>
             ) : (
               <span
+                key={'spanF'+i}
                 data-testid={
                   i + "-" + element.value.length + element.correctness
                 }

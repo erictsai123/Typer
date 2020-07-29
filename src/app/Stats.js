@@ -32,9 +32,8 @@ export default class Stats extends React.Component {
   setShow() {
     this.setState({ toggle: true });
   }
-  setClose() {
+  setClose()  {
     this.setState({ toggle: false });
-    setTimeout(() => document.getElementById("promptBox").focus(), 300);
   }
   wordPerMinute(timestart, cor, index) {
     if (timestart === 0 || index === 0) {
@@ -42,7 +41,7 @@ export default class Stats extends React.Component {
     }
     const min = (Date.now() - timestart) / 1000 / 60;
 
-    const uncorrect = index - cor + 1;
+    const uncorrect = index - cor;
 
     return Math.max(Math.round((10 * (index / 5 - uncorrect)) / min) / 10, 0);
   }

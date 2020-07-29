@@ -1,15 +1,11 @@
-import {enterKey,update} from '../app/enterKey.js'
+import {enterKey,update} from '../reducers/enterKey.js'
 
 describe('action tests - enter key',()=>{
     test("testing creating action",()=>{
         expect(enterKey("50",'stuff')).toEqual({type:'stuff',key:"50"})
         expect(enterKey(0,'stuff')).toEqual({type:'stuff',key:0})
     })
-    test("testing handling set",()=>{
-        const action = {type:'set',prompt:"testprompt"}
-        expect(update({},action))
-        .toEqual({prompt:"testprompt"})
-    })
+    
     test("testing enter Key - first character true",()=>{
         const action = enterKey("t","enter key")
         const default_array = { error:'',index: 0, arr: [], last_char: true,prompt:"testprompt"}
@@ -123,5 +119,17 @@ describe('reset',()=>{
         expect(update(data,action))
         .toEqual({ error:'',index: 0, arr: [], last_char: true,prompt:"testprompt"})
     })
+    test('refresh',()=>{
+      const action = enterKey("testprompt1","refresh")
+        const data = {error:'afasdf', index: 2, arr: [], last_char: true,prompt:'asdfa'}
+        expect(update(data,action))
+        .toEqual({ error:'',index: 0, arr: [], last_char: true,prompt:"testprompt1"})
+    })
     
+    test('default',()=>{
+      const action = enterKey("testprompt1","s")
+        const data = {error:'afasdf', index: 2, arr: [], last_char: true,prompt:'asdfa'}
+        expect(update(data,action))
+        .toEqual(data)
+    })
 })

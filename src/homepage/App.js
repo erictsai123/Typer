@@ -121,7 +121,11 @@ class App extends React.Component {
     }
   }
   componentDidMount() {
-    setTimeout(() => document.getElementById("promptBox").focus(), 0);
+    setTimeout(() => {
+     if(document.getElementById("promptBox")){
+       document.getElementById("promptBox").focus()
+     }
+    }, 0);
   }
   componentDidUpdate(prevProps) {
     if (prevProps.match.params !== this.props.match.params) {
@@ -149,7 +153,7 @@ class App extends React.Component {
   render() {
     return (
       <Container id="lessonContainer" className="contentstuff">
-        <h1 style={{ "line-height": ".5" }} id="title">
+        <h1 style={{ "lineHeight": ".5" }} id="title">
           Touch Typing Practice
         </h1>
         <Stats
@@ -182,7 +186,7 @@ class App extends React.Component {
   }
 }
 
-export default ReactRedux.connect(
+const AppConnect = ReactRedux.connect(
   (state) => ({ data: state }),
   (dispatch) => ({
     enterKey: (payload, type) => dispatch(enterKey(payload, type)),
@@ -192,3 +196,5 @@ export default ReactRedux.connect(
       dispatch({ type: "statsSummary", payload: payload }),
   })
 )(App);
+
+export {App, AppConnect}

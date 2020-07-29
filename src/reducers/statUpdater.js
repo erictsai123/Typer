@@ -1,7 +1,6 @@
 const stats_default = {
   timeStart: 0,
   timeEnd: 0,
-  numSpace: 0,
   keyCounter: 0,
   correctKey: 0,
 };
@@ -21,16 +20,9 @@ const statUpdater = (data = stats_default, event) => {
         keyCounter: data.keyCounter + 1,
         correctKey: (data.correctKey += event.payload),
       });
-    case "space":
-      return Object.assign({}, data, {
-        numSpace: (data.numSpace += event.payload),
-        keyCounter: data.keyCounter,
-      });
     case "backtrackstat":
       return Object.assign({}, data, {
         correctKey: (data.correctKey -= event.payload[1] === ""),
-        numSpace: (data.numSpace -=
-          event.payload[1] === "" && event.payload[2] === " "),
         keyCounter: data.keyCounter + 1,
       });
     case "refresh":

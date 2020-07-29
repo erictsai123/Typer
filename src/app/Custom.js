@@ -10,6 +10,7 @@ function Custom(props){
         props.setConfig('setPrompt',props.config)
         props.enterKey(textGenerator(props.config),'refresh')
         props.setClose()
+        
     }
     return (
         <Modal show={props.state} onHide={props.setClose} variant='dark'>

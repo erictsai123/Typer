@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Form, Button } from "react-bootstrap";
 import axios from "axios";
 import { Redirect } from "react-router-dom";
@@ -6,15 +6,15 @@ import { connect } from "react-redux";
 function Account(props) {
   const [acct, setAcct] = useState({ name: "", pw: "" });
   const [validated, setValidated] = useState(false);
-  const [click, setClick] = useState("");
+  let click = ''
   const [err, setErr] = useState("");
   const [redirect, setRedirect] = useState(false);
-  const handleClick = (event) => {
-    setClick(event.target.id);
+  
+  const handleClick =  (event) => {
+    click= event.target.id
   };
   const handleChange = (e) =>{
     setAcct({ ...acct, [e.target.name]: e.target.value })
-    setErr('')
   }
     
   const handleSubmit = async (event) => {
@@ -25,7 +25,6 @@ function Account(props) {
       setValidated(true);
       return;
     }
-
     if (click === "login") {
       try{
         let res = await axios.post('/login',acct)
@@ -64,7 +63,7 @@ function Account(props) {
   }
   return (
     <div style={{ width: "40%" }}>
-      <h1 style={{ "text-align": "center" }}>Account</h1>
+      <h1 style={{ "textAlign": "center" }}>Account</h1>
       <hr style={{ background: "white" }}></hr>
 
       <Form
@@ -79,6 +78,7 @@ function Account(props) {
             type="text"
             required
             name="name"
+            data-testid='name'
             onChange={handleChange}
           ></Form.Control>
           <Form.Control.Feedback type="invalid">
@@ -91,6 +91,7 @@ function Account(props) {
             type="password"
             required
             name="pw"
+            data-testid='pw'
             onChange={handleChange}
           ></Form.Control>
           <Form.Control.Feedback type="invalid">
@@ -111,7 +112,7 @@ function Account(props) {
           type="submit"
           variant="outline-dark"
           className="btn"
-          style={{ "margin-left": "5px" }}
+          style={{ "marginLeft": "5px" }}
           id="reg"
           onClick={handleClick}
         >

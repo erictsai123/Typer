@@ -10,6 +10,8 @@ const enterKey = (key, type) => {
 };
 const update = (data = default_data, event) => {
   let correction, correct, allButLast, lastElement;
+  const k = (data.prompt[data.index] === String.fromCharCode(0x2423) &&
+          event.key === " ") ? String.fromCharCode(0x2423) : event.key
   switch (event.type) {
     case "enter key":
       correct =
@@ -17,7 +19,6 @@ const update = (data = default_data, event) => {
         (data.prompt[data.index] === String.fromCharCode(0x2423) &&
           event.key === " ");
       correction = correct ? "" : data.prompt[data.index];
-      const error = data.last_char && !correct ? correction : "";
       if (data.arr.length === 0) {
         return Object.assign({}, data, {
           last_char: correct,
@@ -25,11 +26,11 @@ const update = (data = default_data, event) => {
           arr: [
             {
               correctness: correct,
-              value: data.prompt[data.index],
+              value: k,
               correction: correction,
             },
           ],
-          error: data.error + error,
+          error: data.error + correction,
         });
       }
 
@@ -41,11 +42,11 @@ const update = (data = default_data, event) => {
             ...data.arr,
             {
               correctness: correct,
-              value: data.prompt[data.index],
+              value: k,
               correction: correction,
             },
           ],
-          error: data.error + error,
+          error: data.error + correction,
         });
       }
 
@@ -53,12 +54,12 @@ const update = (data = default_data, event) => {
         data.arr.slice(0, -1),
         data.arr[data.arr.length - 1],
       ];
-      lastElement.value += data.prompt[data.index];
+      lastElement.value += k;
       lastElement.correction += correction;
       return Object.assign({}, data, {
         index: data.index + 1,
         arr: allButLast.concat(lastElement),
-        error: data.error + error,
+        error: data.error + correction,
       });
 
     case "backtrack":

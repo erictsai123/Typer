@@ -25,6 +25,7 @@ const PromptSetting = (props) => {
             <Form.Control
               type="range"
               value={props.data.word}
+              data-testid="rangebox"
               onChange={(e) =>
                 props.func({ ...props.data, word: e.target.value })
               }
@@ -60,7 +61,7 @@ const PromptSetting = (props) => {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label style={{ "margin-right": "15px" }}>
+          <Form.Label style={{ "marginRight": "15px" }}>
             Paranthesis{" "}
           </Form.Label>
 
@@ -78,7 +79,7 @@ const PromptSetting = (props) => {
             {Object.entries(props.data.paran)
               .filter((items) => items[0] !== "all")
               .map((items) => (
-                <Col>
+                <Col key={`checkbox-${items[0]}`}>
                   <Form.Check
                     inline
                     type="checkbox"
@@ -100,6 +101,7 @@ const PromptSetting = (props) => {
             <Form.Control
               type="text"
               value={props.data.spChar}
+              data-testid='spChar'
               onChange={(e) =>
                 props.func({ ...props.data, spChar: e.target.value })
               }
